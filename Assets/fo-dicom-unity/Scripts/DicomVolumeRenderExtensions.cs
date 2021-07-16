@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Dicom.Unity
 {
-    public static class DicomVolumeRendering
+    public static class DicomVolumeRenderExtensions
     {
         public static Texture3D ToTexture3D (this DicomFile[] dicomFiles)
         {

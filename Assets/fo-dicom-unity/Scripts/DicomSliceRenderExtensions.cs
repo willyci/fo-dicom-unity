@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Dicom.Unity
 {
-    public static class DicomSliceRendering
+    public static class DicomSliceRenderExtensions
     {
         public static Texture2D ToTexture2D (this DicomFile dicomFile)
         {
