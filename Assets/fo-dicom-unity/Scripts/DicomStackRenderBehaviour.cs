@@ -13,7 +13,7 @@ namespace Dicom.Unity
 
         public int SliceCount
         {
-            get { return sliceTextures != null ? sliceTextures.Length : -1 }
+            get { return sliceTextures != null ? sliceTextures.Length : -1; }
         }
 
         private int sliceIndex = -1;
