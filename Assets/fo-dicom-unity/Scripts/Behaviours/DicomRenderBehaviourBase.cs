@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Dicom.Unity
+namespace Dicom.Unity.Behaviours
 {
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]

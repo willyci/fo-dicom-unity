@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Dicom.Unity
+namespace Dicom.Unity.Behaviours
 {
     /// <summary>
     /// Renders a DICOM slice through Unity's default rendering pipeline.

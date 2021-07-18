@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 
-namespace Dicom.Unity
+namespace Dicom.Unity.Behaviours
 {
     /// <summary>
     /// Basic Unity MonoBehaviour hook for load and render operations.

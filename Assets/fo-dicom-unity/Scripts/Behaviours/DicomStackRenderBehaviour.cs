@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dicom.Unity
+namespace Dicom.Unity.Behaviours
 {
     public class DicomStackRenderBehaviour : DicomRenderBehaviourBase
     {
