@@ -5,9 +5,9 @@ namespace Dicom.Unity.Factories
 {
     public static class DicomVolumeRenderDataFactory
     {
-        public static DicomVolumeRenderData CreateVolumeData (DicomFile[] dicomFiles)
+        public static DicomVolumeData CreateVolumeData (DicomFile[] dicomFiles)
         {
-            DicomSliceRenderData[] sliceData = CreateSliceData(dicomFiles);
+            DicomSliceData[] sliceData = CreateSliceData(dicomFiles);
 
             if (SlicesHaveInconsistentDimensions(sliceData))
                 Debug.LogError("Warning: Volume slices have inconsistent dimensions");
@@ -16,7 +16,7 @@ namespace Dicom.Unity.Factories
             Vector3 physicalSize = GetPhysicalSize(sliceData, dicomFiles);
             double[] houndsfieldValues = ConcatenateSliceValues(sliceData, voxelCount);
 
-            return new DicomVolumeRenderData
+            return new DicomVolumeData
             {
                 voxelCount = voxelCount,
                 physicalSize = physicalSize,
@@ -24,9 +24,9 @@ namespace Dicom.Unity.Factories
             };
         }
 
-        private static DicomSliceRenderData[] CreateSliceData (DicomFile[] dicomFiles)
+        private static DicomSliceData[] CreateSliceData (DicomFile[] dicomFiles)
         {
-            DicomSliceRenderData[] sliceData = new DicomSliceRenderData[dicomFiles.Length];
+            DicomSliceData[] sliceData = new DicomSliceData[dicomFiles.Length];
 
             Parallel.For(0, sliceData.Length, i =>
             {
@@ -36,7 +36,7 @@ namespace Dicom.Unity.Factories
             return sliceData;
         }
 
-        private static bool SlicesHaveInconsistentDimensions (DicomSliceRenderData[] sliceData)
+        private static bool SlicesHaveInconsistentDimensions (DicomSliceData[] sliceData)
         {
             for (int i = 1; i < sliceData.Length; i++)
                 if (sliceData[i].pixelCount != sliceData[0].pixelCount)
@@ -45,7 +45,7 @@ namespace Dicom.Unity.Factories
             return false;
         }
 
-        private static Vector3Int GetVoxelCount (DicomSliceRenderData[] sliceData)
+        private static Vector3Int GetVoxelCount (DicomSliceData[] sliceData)
         {
             return new Vector3Int
             {
@@ -55,7 +55,7 @@ namespace Dicom.Unity.Factories
             };
         }
 
-        private static Vector3 GetPhysicalSize (DicomSliceRenderData[] sliceData, DicomFile[] dicomFiles)
+        private static Vector3 GetPhysicalSize (DicomSliceData[] sliceData, DicomFile[] dicomFiles)
         {
             decimal spacingBetweenSlices = dicomFiles[0].Dataset.GetValue<decimal>(DicomTag.SpacingBetweenSlices, 0);
 
@@ -67,7 +67,7 @@ namespace Dicom.Unity.Factories
             };
         }
 
-        private static double[] ConcatenateSliceValues (DicomSliceRenderData[] sliceData, Vector3Int voxelCount)
+        private static double[] ConcatenateSliceValues (DicomSliceData[] sliceData, Vector3Int voxelCount)
         {
             double[] houndsfieldValues = new double[voxelCount.x * voxelCount.y * voxelCount.z];
 

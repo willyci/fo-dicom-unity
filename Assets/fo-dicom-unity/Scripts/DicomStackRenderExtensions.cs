@@ -7,10 +7,10 @@ namespace Dicom.Unity
     {
         public static Texture2D[] ToTexture2DArray (this DicomFile[] dicomFiles)
         {
-            return ToTexture2DArray(DicomStackRenderData.Extract(dicomFiles));
+            return ToTexture2DArray(DicomStackData.Extract(dicomFiles));
         }
 
-        public static Texture2D[] ToTexture2DArray(this DicomStackRenderData stackData)
+        public static Texture2D[] ToTexture2DArray(this DicomStackData stackData)
         {
             Texture2D[] stackTextures = new Texture2D[stackData.sliceData.Length];
             

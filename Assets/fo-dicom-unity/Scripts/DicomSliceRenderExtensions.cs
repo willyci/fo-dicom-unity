@@ -6,10 +6,10 @@ namespace Dicom.Unity
     {
         public static Texture2D ToTexture2D (this DicomFile dicomFile)
         {
-            return ToTexture2D(DicomSliceRenderData.Extract(dicomFile));
+            return ToTexture2D(DicomSliceData.Extract(dicomFile));
         }
 
-        public static Texture2D ToTexture2D (this DicomSliceRenderData renderData)
+        public static Texture2D ToTexture2D (this DicomSliceData renderData)
         {
             float[] normalisedValues = DicomRenderingUtilities.NormaliseValues(renderData.houndsfieldValues);
             Color[] grayscaleColors = DicomRenderingUtilities.ConvertValuesToGrayscale(normalisedValues);

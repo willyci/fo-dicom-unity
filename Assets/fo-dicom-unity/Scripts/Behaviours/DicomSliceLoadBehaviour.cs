@@ -20,13 +20,13 @@ namespace Dicom.Unity.Behaviours
         /// <summary>
         /// Loads (and optionally renders) a DICOM file from drive as DicomSliceRenderData.
         /// </summary>
-        public DicomSliceRenderData LoadSlice (string dicomSliceFilePath)
+        public DicomSliceData LoadSlice (string dicomSliceFilePath)
         {
             if (!File.Exists(dicomSliceFilePath))
                 throw new ArgumentNullException("Specified path is not a file or does not exist");
 
             DicomFile dicomFile = DicomReader.ReadFile(dicomSliceFilePath);
-            DicomSliceRenderData sliceData = DicomSliceRenderData.Extract(dicomFile);
+            DicomSliceData sliceData = DicomSliceData.Extract(dicomFile);
             
             if (sliceRenderer != null)
             {

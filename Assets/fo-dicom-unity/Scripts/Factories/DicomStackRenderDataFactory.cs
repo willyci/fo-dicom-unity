@@ -4,15 +4,15 @@ namespace Dicom.Unity.Factories
 {
     public static class DicomStackRenderDataFactory
     {
-        public static DicomStackRenderData CreateStackData (DicomFile[] dicomFiles)
+        public static DicomStackData CreateStackData (DicomFile[] dicomFiles)
         {
-            DicomSliceRenderData[] sliceData = new DicomSliceRenderData[dicomFiles.Length];
+            DicomSliceData[] sliceData = new DicomSliceData[dicomFiles.Length];
             Parallel.For(0, sliceData.Length, i =>
             {
                 sliceData[i] = DicomSliceRenderDataFactory.CreateSliceData(dicomFiles[i]);
             });
 
-            return new DicomStackRenderData
+            return new DicomStackData
             {
                 sliceData = sliceData
             };

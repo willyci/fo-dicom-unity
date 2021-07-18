@@ -6,13 +6,13 @@ namespace Dicom.Unity.Factories
 {
     public static class DicomSliceRenderDataFactory
     {
-        public static DicomSliceRenderData CreateSliceData (DicomFile dicomFile)
+        public static DicomSliceData CreateSliceData (DicomFile dicomFile)
         {
             Vector2Int pixelCount = GetPixelCount(dicomFile);
             Vector2 physicalSize = GetPhysicalSize(dicomFile, pixelCount);
             double[] values = GetValues(dicomFile, pixelCount);
 
-            return new DicomSliceRenderData
+            return new DicomSliceData
             {
                 pixelCount = pixelCount,
                 physicalSize = physicalSize,

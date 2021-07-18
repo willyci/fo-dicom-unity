@@ -7,7 +7,7 @@ namespace Dicom.Unity.Behaviours
     /// </summary>
     public class DicomSliceRenderBehaviour : DicomRenderBehaviourBase
     {
-        public void Render (DicomSliceRenderData sliceData)
+        public void Render (DicomSliceData sliceData)
         {
             Render(sliceData.ToTexture2D());
         }

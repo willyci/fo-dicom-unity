@@ -19,7 +19,7 @@ namespace Dicom.Unity.Behaviours
         private int sliceIndex = -1;
         private Texture2D[] sliceTextures;
 
-        public void Render (DicomStackRenderData stackData)
+        public void Render (DicomStackData stackData)
         {
             throw new System.NotImplementedException();
         }
