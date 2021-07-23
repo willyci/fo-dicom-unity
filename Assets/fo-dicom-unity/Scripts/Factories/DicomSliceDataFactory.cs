@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dicom.Unity.Factories
 {
-    public static class DicomSliceRenderDataFactory
+    public static class DicomSliceDataFactory
     {
         public static DicomSliceData CreateSliceData (DicomFile dicomFile)
         {

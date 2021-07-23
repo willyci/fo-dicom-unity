@@ -13,7 +13,7 @@ namespace Dicom.Unity
 
         public static DicomSliceData Extract (DicomFile dicomFile)
         {
-            return Factories.DicomSliceRenderDataFactory.CreateSliceData(dicomFile);
+            return Factories.DicomSliceDataFactory.CreateSliceData(dicomFile);
         }
     }
 }

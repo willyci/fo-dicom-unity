@@ -9,7 +9,7 @@ namespace Dicom.Unity
 
         public static DicomStackData Extract (DicomFile[] dicomFiles)
         {
-            return Factories.DicomStackRenderDataFactory.CreateStackData(dicomFiles);
+            return Factories.DicomStackDataFactory.CreateStackData(dicomFiles);
         }
     }
 }

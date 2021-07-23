@@ -13,7 +13,7 @@ namespace Dicom.Unity
 
         public static DicomVolumeData Extract (DicomFile[] dicomFiles)
         {
-            return Factories.DicomVolumeRenderDataFactory.CreateVolumeData(dicomFiles);
+            return Factories.DicomVolumeDataFactory.CreateVolumeData(dicomFiles);
         }
     }
 }

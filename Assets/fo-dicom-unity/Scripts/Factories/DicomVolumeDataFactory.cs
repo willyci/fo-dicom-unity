@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Dicom.Unity.Factories
 {
-    public static class DicomVolumeRenderDataFactory
+    public static class DicomVolumeDataFactory
     {
         public static DicomVolumeData CreateVolumeData (DicomFile[] dicomFiles)
         {
@@ -30,7 +30,7 @@ namespace Dicom.Unity.Factories
 
             Parallel.For(0, sliceData.Length, i =>
             {
-                sliceData[i] = DicomSliceRenderDataFactory.CreateSliceData(dicomFiles[i]);
+                sliceData[i] = DicomSliceDataFactory.CreateSliceData(dicomFiles[i]);
             });
 
             return sliceData;

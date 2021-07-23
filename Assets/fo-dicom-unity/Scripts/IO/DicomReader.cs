@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Dicom.Unity
+namespace Dicom.Unity.IO
 {
     /// <summary>
     /// Loads DICOM files synchronously from disk into memory in fo-dicom's DicomFile format.

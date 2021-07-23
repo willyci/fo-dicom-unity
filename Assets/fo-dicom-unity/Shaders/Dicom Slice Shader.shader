@@ -1,8 +1,10 @@
-Shader "Dicom/DicomImageRendering"
+Shader "Dicom/Dicom Slice Shader"
 {
     Properties
     {
         _MainTex("Texture", 2D) = "white" {}
+        _WindowMin ("Window Minimum", Float) = -1000
+        _WindowMax ("Window Maximum", Float) = 1000
     }
         SubShader
     {
@@ -31,6 +33,8 @@ Shader "Dicom/DicomImageRendering"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _WindowMin;
+            float _WindowMax;
 
             fragmentData vertex(vertexData vertData)
             {
@@ -43,6 +47,7 @@ Shader "Dicom/DicomImageRendering"
             fixed4 fragment(fragmentData fragData) : SV_Target
             {
                 float value = tex2D(_MainTex, fragData.uv);
+                value = (value - _WindowMin) / (_WindowMax - _WindowMin);
 
                 fixed4 col;
                 col.r = value;
