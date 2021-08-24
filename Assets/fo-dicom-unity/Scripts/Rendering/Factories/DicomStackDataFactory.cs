@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 
-namespace Dicom.Unity.Factories
+namespace Dicom.Unity.Rendering.Factories
 {
+    using Rendering.Data;
+
     public static class DicomStackDataFactory
     {
         public static DicomStackData CreateStackData (DicomFile[] dicomFiles)

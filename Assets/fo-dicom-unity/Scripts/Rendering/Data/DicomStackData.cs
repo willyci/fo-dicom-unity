@@ -1,4 +1,4 @@
-namespace Dicom.Unity
+namespace Dicom.Unity.Rendering.Data
 {
     /// <summary>
     /// Convenience aggregate of a stack of DicomSliceData slices.

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Dicom.Unity
+namespace Dicom.Unity.Rendering.Data
 {
     /// <summary>
     /// Data associated with a 3D DICOM volume.

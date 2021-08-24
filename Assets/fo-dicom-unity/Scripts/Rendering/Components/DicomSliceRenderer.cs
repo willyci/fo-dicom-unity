@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Dicom.Unity.Rendering
+namespace Dicom.Unity.Rendering.Components
 {
+    using Rendering.Data;
+    using Rendering.Factories;
+
     public class DicomSliceRenderer : DicomRenderer
     {
+        public override void Render(DicomSeries series)
+        {
+            Render(DicomSliceDataFactory.CreateSliceData(series.dicomFiles[0]));
+        }
+
         public void Render (DicomSliceData sliceData)
         {
             Color[] colors = ConvertValuesToColors(sliceData.houndsfieldValues);

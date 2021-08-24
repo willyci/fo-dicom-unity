@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Dicom.Unity.Rendering
+namespace Dicom.Unity.Rendering.Components
 {
     [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter))]
     public abstract class DicomRenderer : MonoBehaviour
     {
+        public abstract void Render(DicomSeries series);
+
         protected new MeshRenderer renderer => GetComponent<MeshRenderer>();
+        protected MeshFilter filter => GetComponent<MeshFilter>();
 
         public void SetWindow (float min, float max)
         {

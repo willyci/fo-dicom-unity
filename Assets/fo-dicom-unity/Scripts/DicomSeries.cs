@@ -1,4 +1,4 @@
-namespace Dicom.Unity.IO
+namespace Dicom.Unity
 {
     [System.Serializable]
     public class DicomSeries

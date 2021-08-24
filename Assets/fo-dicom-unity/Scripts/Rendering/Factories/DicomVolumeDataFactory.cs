@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Dicom.Unity.Factories
+namespace Dicom.Unity.Rendering.Factories
 {
+    using Rendering.Data;
+
     public static class DicomVolumeDataFactory
     {
         public static DicomVolumeData CreateVolumeData (DicomFile[] dicomFiles)

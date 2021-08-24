@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using UnityEngine;
 
-namespace Dicom.Unity.IO
+namespace Dicom.Unity
 {
     public class DicomStudy : MonoBehaviour
     {
@@ -43,9 +43,9 @@ namespace Dicom.Unity.IO
             try
             {
                 if (File.Exists(path))
-                    dicomFiles = new DicomFile[] { DicomReader.ReadFile(path) };
+                    dicomFiles = new DicomFile[] { IO.DicomReader.ReadFile(path) };
                 else if (Directory.Exists(path))
-                    dicomFiles = DicomReader.ReadDirectory(path);
+                    dicomFiles = IO.DicomReader.ReadDirectory(path);
                 else
                     Debug.LogError("DICOM IO Error: No file or path found at " + path);
             }

@@ -2,8 +2,10 @@ using Dicom.Imaging;
 using Dicom.Imaging.Render;
 using UnityEngine;
 
-namespace Dicom.Unity.Factories
+namespace Dicom.Unity.Rendering.Factories
 {
+    using Rendering.Data;
+
     public static class DicomSliceDataFactory
     {
         public static DicomSliceData CreateSliceData (DicomFile dicomFile)
