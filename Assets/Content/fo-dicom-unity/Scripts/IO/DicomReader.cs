@@ -56,16 +56,6 @@ namespace Dicom.Unity.IO
                 fileArray[i] = DicomFile.Open(filePaths.ElementAt(i));
             });
 
-            // Convert to list and sort by slice location
-            List<DicomFile> fileList = fileArray.ToList();
-            fileList.Sort((DicomFile a, DicomFile b) => {
-                return a.Dataset.GetValue<decimal>(DicomTag.SliceLocation, 0)
-                .CompareTo(b.Dataset.GetValue<decimal>(DicomTag.SliceLocation, 0));
-            });
-
-            // Convert back to an array for a fixed-order return
-            fileArray = fileList.ToArray();
-
             return fileArray;
         }
     }
