@@ -19,16 +19,5 @@ namespace Dicom.Unity.Rendering.Components
             renderer.material.SetFloat("_WindowMin", min);
             renderer.material.SetFloat("_WindowMax", max);
         }
-
-        protected Color[] ConvertValuesToColors(double[] values)
-        {
-            Color[] colors = new Color[values.Length];
-            Parallel.For(0, colors.Length, i =>
-            {
-                float value = (float)values[i];
-                colors[i] = new Color(value, value, value);
-            });
-            return colors;
-        }
     }
 }

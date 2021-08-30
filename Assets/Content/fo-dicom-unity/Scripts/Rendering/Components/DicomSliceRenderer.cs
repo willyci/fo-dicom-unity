@@ -6,18 +6,17 @@ using UnityEngine;
 namespace Dicom.Unity.Rendering.Components
 {
     using Rendering.Data;
-    using Rendering.Factories;
 
     public class DicomSliceRenderer : DicomRenderer
     {
         public override void Render(DicomSeries series)
         {
-            Render(DicomSliceDataFactory.CreateSliceData(series.dicomFiles[0]));
+            Render(DicomSliceData.Extract(series.dicomFiles[0]));
         }
 
         public void Render (DicomSliceData sliceData)
         {
-            Color[] colors = ConvertValuesToColors(sliceData.houndsfieldValues);
+            Color[] colors = HoundsfieldScale.ValuesToColors(sliceData.houndsfieldValues);
 
             Texture2D sliceTexture = new Texture2D(
                 sliceData.pixelCount.x,
