@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dicom.Unity.Rendering.Components
+namespace Dicom.Unity.Rendering
 {
     using Rendering.Data;
 

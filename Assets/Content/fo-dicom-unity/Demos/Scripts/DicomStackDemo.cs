@@ -5,12 +5,12 @@ using UnityEngine;
 namespace Dicom.Unity.Demos
 {
     using Dicom.Unity.IO;
-    using Dicom.Unity.Rendering.Components;
+    using Dicom.Unity.Rendering;
 
     public class DicomStackDemo : MonoBehaviour
     {
         public DicomStudy study;
-        public DicomStackRenderer stackRenderer;
+        public new DicomRenderer renderer;
 
         public string dicomDirPath;
 
@@ -19,7 +19,7 @@ namespace Dicom.Unity.Demos
             study.LoadStudy(dicomDirPath);
 
             foreach (var series in study.series)
-                stackRenderer.Render(series.Value);
+                renderer.Render(series.Value);
         }
     }
 }

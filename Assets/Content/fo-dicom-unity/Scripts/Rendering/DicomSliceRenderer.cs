@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Dicom.Unity.Rendering.Components
+namespace Dicom.Unity.Rendering
 {
     using Rendering.Data;
 
