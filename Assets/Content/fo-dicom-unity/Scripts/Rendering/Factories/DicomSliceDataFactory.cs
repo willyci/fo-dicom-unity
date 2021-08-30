@@ -57,8 +57,11 @@ namespace Dicom.Unity.Rendering.Factories
             DicomPixelData header = DicomPixelData.Create(dicomFile.Dataset);
             IPixelData pixelData = PixelDataFactory.Create(header, 0);
 
-            double slope = dicomFile.Dataset.GetValue<double>(DicomTag.RescaleSlope, 0);
-            double intercept = dicomFile.Dataset.GetValue<double>(DicomTag.RescaleIntercept, 0);
+            bool containsRescaleSlopeTag = dicomFile.Dataset.Contains(DicomTag.RescaleSlope);
+            bool containsInterceptTab = dicomFile.Dataset.Contains(DicomTag.RescaleIntercept);
+
+            double slope = containsRescaleSlopeTag ? dicomFile.Dataset.GetValue<double>(DicomTag.RescaleSlope, 0) : 1;
+            double intercept = containsInterceptTab ? dicomFile.Dataset.GetValue<double>(DicomTag.RescaleIntercept, 0) : -1024;
 
             for (int x = 0; x < pixelData.Width; x++)
             {
