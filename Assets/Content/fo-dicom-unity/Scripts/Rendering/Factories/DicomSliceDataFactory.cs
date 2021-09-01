@@ -38,7 +38,10 @@ namespace Dicom.Unity.Rendering.Factories
             // Data format: ==> {Pixel Spacing Value} = {Row Spacing Value} \ {Column Spacing Value}
             // [0]: Row Spacing Value
             // [1]: Column Spacing Value
-            string[] pixelSpacing = dicomFile.Dataset.GetValue<string>(DicomTag.PixelSpacing, 0).Split('\\');
+
+            bool containsPixelSpacing = dicomFile.Dataset.Contains(DicomTag.PixelSpacing);
+            
+            string[] pixelSpacing = containsPixelSpacing ? dicomFile.Dataset.GetValue<string>(DicomTag.PixelSpacing, 0).Split('\\') : new string[] { "1.00", "1.00" };
 
             decimal rowSpacing = decimal.Parse(pixelSpacing[0]);
             decimal columnSpacing = pixelSpacing.Length > 1 ? decimal.Parse(pixelSpacing[1]) : decimal.Parse(pixelSpacing[0]);

@@ -6,13 +6,6 @@ float getDensity(float3 pos)
     return tex3Dlod(_DataTex, float4(pos.x, pos.y, pos.z, 0.0f));
 }
 
-// ------------------------------------------------------
-// Normalises the density using the window parameters
-// ------------------------------------------------------
-float windowDensity (float density)
-{
-    return clamp((density - _WindowMin) / (_WindowMax - _WindowMin), 0, 1);
-}
 
 // ------------------------------------------------------
 // Converts local position to depth value
@@ -37,26 +30,13 @@ ray getVertexToFragmentRay(fragment_in input)
 
     output.origin = input.objectSpacePosition + float3(0.5f, 0.5f, 0.5f);
     output.direction = normalize(input.vertexToCamera);
-
+        
     // Create a small random offset in order to remove artifacts
     output.origin = output.origin + (2.0f * output.direction / NUM_STEPS) * tex2D(_NoiseTex, float2(input.uv.x, input.uv.y)).r;
 
     return output;
 }
 
- // ------------------------------------------------------
-// Get the colour from a one-dimensional transfer function
-// ------------------------------------------------------
-float4 getTransferFunctionColor(float density)
-{
-    return tex2Dlod(_TFTex, float4(density, 0.0f, 0.0f, 0.0f));
-}
-
-// Gets the gradient at the specified position
-float3 getGradient(float3 pos)
-{
-    return tex3Dlod(_GradientTex, float4(pos.x, pos.y, pos.z, 0.0f)).rgb;
-}
 
 // Performs lighting calculations, and returns a modified colour.
 float3 calculateLighting(float3 col, float3 normal, float3 lightDir, float3 eyeDir, float specularIntensity)

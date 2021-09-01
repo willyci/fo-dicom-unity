@@ -16,6 +16,17 @@ namespace Dicom.Unity.Rendering
 
         public void Render (DicomSliceData sliceData)
         {
+            Texture2D sliceTexture = ConvertDataToTexture(sliceData);
+
+            renderer.material.mainTexture = sliceTexture;
+
+            float min = (float)sliceData.houndsfieldValues.Min();
+            float max = (float)sliceData.houndsfieldValues.Max();
+            SetWindow(min, max);
+        }
+
+        private Texture2D ConvertDataToTexture (DicomSliceData sliceData)
+        {
             Color[] colors = HoundsfieldScale.ValuesToColors(sliceData.houndsfieldValues);
 
             Texture2D sliceTexture = new Texture2D(
@@ -27,11 +38,7 @@ namespace Dicom.Unity.Rendering
             sliceTexture.SetPixels(colors);
             sliceTexture.Apply();
 
-            renderer.material.mainTexture = sliceTexture;
-
-            float min = (float)sliceData.houndsfieldValues.Min();
-            float max = (float)sliceData.houndsfieldValues.Max();
-            SetWindow(min, max);
+            return sliceTexture;
         }
     }
 }

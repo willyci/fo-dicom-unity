@@ -1,4 +1,4 @@
-﻿Shader "Dicom/Dicom Volume Shader"
+﻿Shader "VolumeRendering"
 {
     Properties
     {
@@ -6,10 +6,8 @@
         _GradientTex("Gradient Texture (Generated)", 3D) = "" {}
         _NoiseTex("Noise Texture (Generated)", 2D) = "white" {}
         _TFTex("Transfer Function Texture (Generated)", 2D) = "" {}
-        _WindowMin ("Window Minimum", Float) = -1000
-        _WindowMax ("Window Maximum", Float) = 1000
-        _CutMin("Min val", Float) = -1000
-        _CutMax("Max val", Float) = 1000
+        _MinVal("Min val", Range(0.0, 1.0)) = 0.0
+        _MaxVal("Max val", Range(0.0, 1.0)) = 1.0
 
             // culling box rotation offset
             // depth for each culling plane
@@ -66,10 +64,9 @@
                 sampler2D _NoiseTex;
                 sampler2D _TFTex;
 
-                float _WindowMin;
-                float _WindowMax;
-                float _CutMin;
-                float _CutMax;
+                float _MinVal;
+                float _MaxVal;
+                float _Opacity;
 
                 sampler2D _MainTex;
                 float4 _MainTex_ST;
@@ -84,7 +81,23 @@
 
                 #define SIZE_STEP 1.732f / NUM_STEPS // 1.732 is the longest straight line that can be drawn in a unit cube
 
-                #include "DicomVolumeRenderUtilities.cginc"
+                #include "VolumeRenderUtilities.cginc"
+
+
+                // Gets the gradient at the specified position
+                float3 getGradient(float3 pos)
+                {
+                    return tex3Dlod(_GradientTex, float4(pos.x, pos.y, pos.z, 0.0f)).rgb;
+                }
+
+
+                // ------------------------------------------------------
+                // Get the colour from a one-dimensional transfer function
+                // ------------------------------------------------------
+                float4 getTransferFunctionColor(float density)
+                {
+                    return tex2Dlod(_TFTex, float4(density, 0.0f, 0.0f, 0.0f));
+                }
 
                 /* ###################################################### */
                 /* ------------------ RENDER FUNCTIONS ------------------ */
@@ -111,9 +124,12 @@
                 {
                     ray ray = getVertexToFragmentRay(input);
 
+                    float4 objPos = float4(input.objectSpacePosition.x, input.objectSpacePosition.y, input.objectSpacePosition.z, 1);
+                    float3 camLength = ObjSpaceViewDir(objPos);
+                    float lengthToCamera = length(camLength);
+
                     // March along the ray
                     float4 colour = float4(0.0f, 0.0f, 0.0f, 0.0f);
-                    float distanceToCamera = length(input.vertexToCamera);
                     uint depth = 0;
                     for (uint step = 0; step < NUM_STEPS; step++)
                     {
@@ -129,18 +145,13 @@
                         || currentPosition.z > 1.0f)
                             break;
 
-                        // Break if viewing from inside the volume and the raycast has gone behind the camera
-                        if (distance > distanceToCamera)
-                            break;
-
                         // TODO: Box culling here
 
                         const float density = getDensity(currentPosition);
-                        const float value = windowDensity(density);
-                        float4 baseColour = getTransferFunctionColor(value);
+                        float4 baseColour = getTransferFunctionColor(density);
 
                         // Threshold the density above and below
-                        if (density < _CutMin || density > _CutMax)
+                        if (density < _MinVal || density > _MaxVal)
                             baseColour.a = 0.0f;
 
                         // Combine this step's RGB with the previous step's RGB
@@ -155,6 +166,9 @@
 
                         // If this step is completely opaque there's no need to continue stepping
                         if (colour.a > 1.0f)
+                            break;
+
+                        if (distance > lengthToCamera)
                             break;
                     }
 
@@ -197,7 +211,7 @@
                             continue;
 
                         const float density = getDensity(currentPosition);
-                        if (density > _CutMin && density < _CutMax)
+                        if (density > _MinVal&& density < _MaxVal)
                         {
                             float3 normal = getGradient(currentPosition);
                             colour = getTransferFunctionColor(density);

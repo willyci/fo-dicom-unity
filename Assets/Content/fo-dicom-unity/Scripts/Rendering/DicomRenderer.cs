@@ -19,5 +19,15 @@ namespace Dicom.Unity.Rendering
             renderer.material.SetFloat("_WindowMin", min);
             renderer.material.SetFloat("_WindowMax", max);
         }
+
+        protected Vector3 ConvertPhysicalSizeToNormalisedScale (Vector2 physicalSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected Vector3 ConvertPhysicalSizeToNormalisedScale (Vector3 physicalSize)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

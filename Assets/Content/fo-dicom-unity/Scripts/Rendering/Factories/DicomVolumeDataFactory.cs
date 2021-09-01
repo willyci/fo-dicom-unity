@@ -59,7 +59,8 @@ namespace Dicom.Unity.Rendering.Factories
 
         private static Vector3 GetPhysicalSize (DicomSliceData[] sliceData, DicomFile[] dicomFiles)
         {
-            decimal spacingBetweenSlices = dicomFiles[0].Dataset.GetValue<decimal>(DicomTag.SpacingBetweenSlices, 0);
+            bool containsSpacingBetweenSLices = dicomFiles[0].Dataset.Contains(DicomTag.SpacingBetweenSlices);
+            decimal spacingBetweenSlices = containsSpacingBetweenSLices ? dicomFiles[0].Dataset.GetValue<decimal>(DicomTag.SpacingBetweenSlices, 0) : 1;
 
             return new Vector3
             {

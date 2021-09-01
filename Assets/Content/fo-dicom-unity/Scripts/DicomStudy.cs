@@ -91,11 +91,11 @@ namespace Dicom.Unity
 
             // Wrap each pair as a DicomSeries
             var seriesDictionary = new Dictionary<int, DicomSeries>();
-            Parallel.ForEach(sortedArrays, sortedArray =>
+            foreach (var sortedArray in sortedArrays)
             {
                 var series = new DicomSeries(sortedArray.Key, sortedArray.Value);
                 seriesDictionary.Add(series.seriesNumber, series);
-            });
+            }
 
             return seriesDictionary;
         }
