@@ -43,8 +43,8 @@ namespace Dicom.Unity.Rendering.Factories
             
             string[] pixelSpacing = containsPixelSpacing ? dicomFile.Dataset.GetValue<string>(DicomTag.PixelSpacing, 0).Split('\\') : new string[] { "1.00", "1.00" };
 
-            decimal rowSpacing = decimal.Parse(pixelSpacing[0]);
-            decimal columnSpacing = pixelSpacing.Length > 1 ? decimal.Parse(pixelSpacing[1]) : decimal.Parse(pixelSpacing[0]);
+            float rowSpacing = ParseSpacing(pixelSpacing[0]);
+            float columnSpacing = pixelSpacing.Length > 1 ? ParseSpacing(pixelSpacing[0]) : rowSpacing;
 
             return new Vector2()
             {
@@ -81,6 +81,19 @@ namespace Dicom.Unity.Rendering.Factories
             }
 
             return houndsfieldValues;
+        }
+
+        private static float ParseSpacing (string input)
+        {
+            bool decimalSuccess = decimal.TryParse(input, out decimal decimalValue);
+            if (decimalSuccess) 
+                return (float)decimalValue;
+
+            bool floatSuccess = float.TryParse(input, out float floatValue);
+            if (floatSuccess)
+                return floatValue;
+
+            throw new System.ArgumentException("Unparseable string: " + input);
         }
     }
 }

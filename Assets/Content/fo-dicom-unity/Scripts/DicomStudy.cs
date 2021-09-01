@@ -71,29 +71,11 @@ namespace Dicom.Unity
                 unsortedBags[seriesNumber].Add(dicomFiles[i]);
             });
 
-            // Convert each bag to an array sorted by slice location
-            var sortedArrays = new ConcurrentDictionary<int, DicomFile[]>();
-            Parallel.ForEach(unsortedBags, fileBag =>
-            {
-                // Convert bag to a list and sort by slice location
-                var fileList = fileBag.Value.ToList();
-                fileList.Sort((DicomFile a, DicomFile b) => {
-                    return a.Dataset.GetValue<decimal>(DicomTag.SliceLocation, 0)
-                    .CompareTo(b.Dataset.GetValue<decimal>(DicomTag.SliceLocation, 0));
-                });
-
-                // Convert to an array to lock the order
-                var fileArray = fileList.ToArray();
-
-                // Add to sorted arrays dictionary
-                sortedArrays.TryAdd(fileBag.Key, fileArray);
-            });
-
             // Wrap each pair as a DicomSeries
             var seriesDictionary = new Dictionary<int, DicomSeries>();
-            foreach (var sortedArray in sortedArrays)
+            foreach (var sortedArray in unsortedBags)
             {
-                var series = new DicomSeries(sortedArray.Key, sortedArray.Value);
+                var series = new DicomSeries(sortedArray.Key, sortedArray.Value.ToArray());
                 seriesDictionary.Add(series.seriesNumber, series);
             }
 

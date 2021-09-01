@@ -9,7 +9,7 @@ namespace Dicom.Unity.Rendering.Factories
     {
         public static DicomVolumeData CreateVolumeData (DicomFile[] dicomFiles)
         {
-            DicomSliceData[] sliceData = CreateSliceData(dicomFiles);
+            DicomSliceData[] sliceData = DicomStackDataFactory.CreateStackData(dicomFiles).sliceData;
 
             if (SlicesHaveInconsistentDimensions(sliceData))
                 Debug.LogError("Warning: Volume slices have inconsistent dimensions");
@@ -24,18 +24,6 @@ namespace Dicom.Unity.Rendering.Factories
                 physicalSize = physicalSize,
                 houndsfieldValues = houndsfieldValues
             };
-        }
-
-        private static DicomSliceData[] CreateSliceData (DicomFile[] dicomFiles)
-        {
-            DicomSliceData[] sliceData = new DicomSliceData[dicomFiles.Length];
-
-            Parallel.For(0, sliceData.Length, i =>
-            {
-                sliceData[i] = DicomSliceDataFactory.CreateSliceData(dicomFiles[i]);
-            });
-
-            return sliceData;
         }
 
         private static bool SlicesHaveInconsistentDimensions (DicomSliceData[] sliceData)
