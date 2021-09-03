@@ -48,20 +48,20 @@ namespace Dicom.Unity.Rendering
         public void Render (DicomVolumeData volumeData)
         {
             Texture3D volumeTexture = ConvertDataToTexture(volumeData);
-            // calculate gradient texture
+            // TODO: calculate gradient texture
             Texture2D noiseTexture = Noise.GenerateMonochromatic2D(512, 512);
             Texture2D transferTexture = transferFunction.GenerateTexture();
 
             Material material = renderer.material;
 
             material.SetTexture("_DataTex", volumeTexture);
-            //material.SetTexture("_GradientTex", renderData.gradient); TODO
+            // TODO: set gradient texture
             material.SetTexture("_NoiseTex", noiseTexture);
             material.SetTexture("_TFTex", transferTexture);
 
             SetRenderMode(renderMode);
 
-            //transform.localScale = volumeData.physicalSize;
+            transform.localScale = NormalisePhysicalSize(volumeData.physicalSize);
 
             float min = (float)volumeData.houndsfieldValues.Min();
             float max = (float)volumeData.houndsfieldValues.Max();
@@ -83,6 +83,21 @@ namespace Dicom.Unity.Rendering
             volumeTexture.Apply();
 
             return volumeTexture;
+        }
+
+        private Vector3 NormalisePhysicalSize (Vector3 physicalSize)
+        {
+            float maxTerm = Mathf.NegativeInfinity;
+            for (int i = 0; i < 3; i++)
+                if (physicalSize[i] > maxTerm)
+                    maxTerm = physicalSize[i];
+
+            return new Vector3()
+            {
+                x = physicalSize.x / maxTerm,
+                y = physicalSize.y / maxTerm,
+                z = physicalSize.z / maxTerm
+            };
         }
     }
 }
