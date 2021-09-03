@@ -6,26 +6,16 @@ using UnityEngine;
 namespace Dicom.Unity.Rendering
 {
     using Rendering.Data;
+    using UnityVolume.Rendering;
 
-    public class DicomSliceRenderer : DicomRenderer
+    public class DicomSliceRenderer : VolumeRenderer
     {
-        public override void Render(DicomSeries series)
+        public void Render(DicomSeries series)
         {
             Render(DicomSliceData.Extract(series.dicomFiles[0]));
         }
 
         public void Render (DicomSliceData sliceData)
-        {
-            Texture2D sliceTexture = ConvertDataToTexture(sliceData);
-
-            renderer.material.SetTexture("_DataTex", sliceTexture);
-
-            float min = (float)sliceData.houndsfieldValues.Min();
-            float max = (float)sliceData.houndsfieldValues.Max();
-            SetWindow(min, max);
-        }
-
-        private Texture2D ConvertDataToTexture (DicomSliceData sliceData)
         {
             Color[] colors = HoundsfieldScale.ValuesToColors(sliceData.houndsfieldValues);
 
@@ -38,7 +28,22 @@ namespace Dicom.Unity.Rendering
             sliceTexture.SetPixels(colors);
             sliceTexture.Apply();
 
-            return sliceTexture;
+            Vector3 size = new Vector3()
+            {
+                x = sliceData.physicalSize.x,
+                y = sliceData.physicalSize.y,
+                z = 1f
+            };
+
+            base.Render(sliceTexture, size);
+
+            //renderer.material.SetTexture("_DataTex", sliceTexture);
+
+            float min = (float)sliceData.houndsfieldValues.Min();
+            float max = (float)sliceData.houndsfieldValues.Max();
+            
+            SetWindow(min, max);
+            SetCutoff(min, max);
         }
     }
 }

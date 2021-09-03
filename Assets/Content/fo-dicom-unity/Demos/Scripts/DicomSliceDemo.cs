@@ -6,10 +6,10 @@ namespace Dicom.Unity.Demos
 {
     using Dicom.Unity.Rendering;
 
-    public class DicomStackDemo : MonoBehaviour
+    public class DicomSliceDemo : MonoBehaviour
     {
         public DicomStudy study;
-        public DicomStackRenderer stackRenderer;
+        public DicomSliceRenderer sliceRenderer;
 
         public string dicomPath;
 
@@ -18,7 +18,7 @@ namespace Dicom.Unity.Demos
             study.LoadStudy(dicomPath);
 
             foreach (var series in study.series)
-                stackRenderer.Render(series.Value);
+                sliceRenderer.Render(series.Value);
         }
     }
 }

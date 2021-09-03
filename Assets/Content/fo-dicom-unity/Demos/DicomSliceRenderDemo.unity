@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 107563323}
   - component: {fileID: 107563322}
   m_Layer: 0
-  m_Name: DicomStackRenderer
+  m_Name: DicomSliceRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 107563320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f8730685df8ca46b81f1ece1e11388, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e6347abe51259a4f8bda75a6cac8fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   transferFunction:
@@ -332,13 +332,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070645590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44e1ce48d603f6d4ea63ba84b2c8af11, type: 3}
+  m_Script: {fileID: 11500000, guid: aee5ebf72b3de0b4394c337ca6cfbf0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   study: {fileID: 1581979461}
-  stackRenderer: {fileID: 107563321}
+  sliceRenderer: {fileID: 107563321}
   dicomPath: C:\Development\Projects\014 - fo-dicom\fo-dicom-unity\Assets\StreamingAssets\Test
-    Data\Foot DICOM Volume
+    Data\Foot DICOM Slice
 --- !u!4 &1070645592
 Transform:
   m_ObjectHideFlags: 0
