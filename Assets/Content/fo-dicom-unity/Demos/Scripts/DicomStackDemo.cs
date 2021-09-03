@@ -12,11 +12,11 @@ namespace Dicom.Unity.Demos
         public DicomStudy study;
         public new DicomRenderer renderer;
 
-        public string dicomDirPath;
+        public string dicomPath;
 
         private void Start()
         {
-            study.LoadStudy(dicomDirPath);
+            study.LoadStudy(dicomPath);
 
             foreach (var series in study.series)
                 renderer.Render(series.Value);

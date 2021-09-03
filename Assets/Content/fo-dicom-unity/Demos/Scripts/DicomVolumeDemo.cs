@@ -27,7 +27,7 @@ namespace Dicom.Unity.Demos
             }
 
             renderer.Render(activeSeries);
-
+            renderer.SetRenderMode(DicomVolumeRenderer.VolumeRenderMode.Surface);
         }
     }
 }

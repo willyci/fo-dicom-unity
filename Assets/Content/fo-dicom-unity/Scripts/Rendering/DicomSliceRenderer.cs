@@ -18,7 +18,7 @@ namespace Dicom.Unity.Rendering
         {
             Texture2D sliceTexture = ConvertDataToTexture(sliceData);
 
-            renderer.material.mainTexture = sliceTexture;
+            renderer.material.SetTexture("_DataTex", sliceTexture);
 
             float min = (float)sliceData.houndsfieldValues.Min();
             float max = (float)sliceData.houndsfieldValues.Max();

@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   study: {fileID: 619848878}
   renderer: {fileID: 1714372994}
-  dicomDirPath: C:\Development\Reference\DICOM Scans\Rob's Patient\H12769083 (1)\DICOM\A
+  dicomDirPath: C:\Development\Reference\DICOM Scans\Rob's Patient\H12769083 (1)\DICOM\204
 --- !u!4 &587146761
 Transform:
   m_ObjectHideFlags: 0
