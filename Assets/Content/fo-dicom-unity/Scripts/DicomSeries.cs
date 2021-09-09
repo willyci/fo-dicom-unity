@@ -1,5 +1,8 @@
 namespace Dicom.Unity
 {
+    /// <summary>
+    /// A related collection of DICOM files.
+    /// </summary>
     [System.Serializable]
     public class DicomSeries
     {

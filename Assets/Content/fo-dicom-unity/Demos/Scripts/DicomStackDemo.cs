@@ -11,7 +11,7 @@ namespace Dicom.Unity.Demos
         public DicomStudy study;
         public DicomStackRenderer stackRenderer;
 
-        public string dicomPath;
+        private string dicomPath = Application.streamingAssetsPath + @"\Test Data\Foot DICOM Volume";
 
         private void Start()
         {

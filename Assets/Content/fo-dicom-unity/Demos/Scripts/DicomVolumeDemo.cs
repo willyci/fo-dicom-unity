@@ -9,24 +9,16 @@ namespace Dicom.Unity.Demos
     public class DicomVolumeDemo : MonoBehaviour
     {
         public DicomStudy study;
-        public new DicomVolumeRenderer renderer;
+        public DicomVolumeRenderer volumeRenderer;
 
-        public string dicomDirPath;
+        private string dicomPath = Application.streamingAssetsPath + @"\Test Data\Foot DICOM Volume";
 
         private void Start()
         {
-            study.LoadStudy(dicomDirPath);
+            study.LoadStudy(dicomPath);
 
-            DicomSeries activeSeries = null;
-
-            int seriesLength = -1;
             foreach (var series in study.series)
-            {
-                if (series.Value.dicomFiles.Length > seriesLength)
-                    activeSeries = series.Value;
-            }
-
-            renderer.Render(activeSeries);
+                volumeRenderer.Render(series.Value);
         }
     }
 }

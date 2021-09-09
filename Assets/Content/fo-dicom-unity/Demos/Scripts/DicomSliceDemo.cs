@@ -11,7 +11,7 @@ namespace Dicom.Unity.Demos
         public DicomStudy study;
         public DicomSliceRenderer sliceRenderer;
 
-        public string dicomPath;
+        private string dicomPath = Application.streamingAssetsPath + @"\Test Data\Foot DICOM Slice\1.3.12.2.1107.5.2.41.69581.2020072113464472647863348.dcm";
 
         private void Start()
         {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,6 +5,10 @@ namespace Dicom.Unity.Rendering
 {
     using Rendering.Data;
     using UnityVolume.Rendering;
+
+    /// <summary>
+    /// Renders a DICOM slice into the game world.
+    /// </summary>
 
     public class DicomSliceRenderer : VolumeRenderer
     {
@@ -36,8 +38,6 @@ namespace Dicom.Unity.Rendering
             };
 
             base.Render(sliceTexture, size);
-
-            //renderer.material.SetTexture("_DataTex", sliceTexture);
 
             float min = (float)sliceData.houndsfieldValues.Min();
             float max = (float)sliceData.houndsfieldValues.Max();

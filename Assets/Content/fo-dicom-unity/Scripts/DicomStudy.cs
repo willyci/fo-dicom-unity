@@ -8,6 +8,10 @@ using UnityEngine;
 
 namespace Dicom.Unity
 {
+    /// <summary>
+    /// The record of an imaging procedure containing one or more series.
+    /// </summary>
+
     public class DicomStudy : MonoBehaviour
     {
         public Dictionary<int, DicomSeries> series;

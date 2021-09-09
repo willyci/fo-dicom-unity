@@ -18,7 +18,7 @@ namespace Dicom.Unity.Rendering.Components.Editors
             {
                 int targetIndex = EditorGUILayout.IntSlider(stack.index, 0, stack.length - 1);
                 if (targetIndex != stack.index)
-                    stack.SetStackIndex(targetIndex);
+                    stack.ViewSliceAtIndex(targetIndex);
             }
         }
     }

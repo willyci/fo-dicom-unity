@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,6 +5,10 @@ namespace Dicom.Unity.Rendering
 {
     using Rendering.Data;
     using UnityVolume.Rendering;
+
+    /// <summary>
+    /// Renders a DICOM stack into the game world.
+    /// </summary>
 
     public class DicomStackRenderer : VolumeRenderer
     {
@@ -64,10 +66,10 @@ namespace Dicom.Unity.Rendering
             SetWindow(min, max);
             SetCutoff(min, max);
 
-            SetStackIndex(0);
+            ViewSliceAtIndex(0);
         }
 
-        public void SetStackIndex (int index)
+        public void ViewSliceAtIndex (int index)
         {
             // Clamp index to stack length
             if (index < 0) index = 0;

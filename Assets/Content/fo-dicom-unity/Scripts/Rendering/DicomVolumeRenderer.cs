@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,6 +5,10 @@ namespace Dicom.Unity.Rendering
 {
     using Rendering.Data;
     using UnityVolume.Rendering;
+
+    /// <summary>
+    /// Renders a DICOM volume into the game world.
+    /// </summary>
 
     public class DicomVolumeRenderer : VolumeRenderer
     {
