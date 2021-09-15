@@ -13,11 +13,11 @@ namespace Dicom.Unity.IO
         /// <summary>
         /// Returns a DicomFile representation of a DICOM file.
         /// </summary>
-        
-        /// <remarks>
+
+        /// <summary>
         /// Simple wrapper around DicomFile.Open for consistency 
         /// with the more complex ReadDirectory functionality.
-        /// </remarks>
+        /// </summary>
         public static DicomFile ReadFile (string filePath)
         {
             return DicomFile.Open(filePath);
