@@ -30,36 +30,7 @@ namespace Dicom.Unity.Rendering.Factories
         private static DicomFile[] GetOrderedDicomImages (DicomFile[] dicomFiles)
         {
             DicomFile[] imageBearingFiles = GetImageBearingDicomFiles(dicomFiles);
-            
-            if (DatasetsAllContainsImagePositionTags(imageBearingFiles))
-            {
-                // Sort by single-axis slice location
-                Array.Sort(imageBearingFiles, (DicomFile a, DicomFile b) =>
-                {
-                    // TODO: A comparer for XYZ decimal strings
-
-                    return a.Dataset.GetValue<float>(DicomTag.ImagePositionPatient, 0)
-                    .CompareTo(b.Dataset.GetValue<float>(DicomTag.ImagePositionPatient, 0));
-                });
-            }
-            else if (DatasetsAllContainSliceLocationTags(imageBearingFiles))
-            {
-                // Sort by slice location
-                Array.Sort(imageBearingFiles, (DicomFile a, DicomFile b) =>
-                {
-                    return a.Dataset.GetValue<decimal>(DicomTag.SliceLocation, 0)
-                    .CompareTo(b.Dataset.GetValue<decimal>(DicomTag.SliceLocation, 0));
-                });
-            }
-            else
-            {
-                // Sort alphabetically by file name
-                Array.Sort(imageBearingFiles, (DicomFile a, DicomFile b) =>
-                {
-                    return a.File.Name.CompareTo(b.File.Name);
-                });
-            }
-
+            SortByInstanceNumber(imageBearingFiles);
             return imageBearingFiles;
         }
 
@@ -68,7 +39,8 @@ namespace Dicom.Unity.Rendering.Factories
             // DICOM series can sometimes start with a header file containing no image data
             // This file, containing only text, will usually only be a few kB in size,
             // compared to the hundreds of kB for a file containing image data.
-            // Filtering out 
+            
+            // This function filterings out these header files and returns only those files bearing images.
 
             long minimumSize = 25000; // 25kB - large enough to include text, small enough to exclude images
             
@@ -80,36 +52,13 @@ namespace Dicom.Unity.Rendering.Factories
             return imageFiles.ToArray();
         }
 
-        private static bool DatasetsAllContainsImagePositionTags(DicomFile[] dicomFiles)
+        private static void SortByInstanceNumber(DicomFile[] imageBearingFiles)
         {
-            bool containsImagePositionTag = true;
-
-            foreach (var file in dicomFiles)
+            Array.Sort(imageBearingFiles, (DicomFile a, DicomFile b) =>
             {
-                if (!file.Dataset.Contains(DicomTag.ImagePositionPatient))
-                {
-                    containsImagePositionTag = false;
-                    break;
-                }
-            }
-
-            return containsImagePositionTag;
-        }
-
-        private static bool DatasetsAllContainSliceLocationTags (DicomFile[] dicomFiles)
-        {
-            bool containsSlicePositionTag = true;
-
-            foreach (var file in dicomFiles)
-            {
-                if (!file.Dataset.Contains(DicomTag.SliceLocation))
-                {
-                    containsSlicePositionTag = false;
-                    break;
-                }
-            }
-
-            return containsSlicePositionTag;
+                return a.Dataset.GetValue<int>(DicomTag.InstanceNumber, 0)
+                .CompareTo(b.Dataset.GetValue<int>(DicomTag.InstanceNumber, 0));
+            });
         }
     }
 }
