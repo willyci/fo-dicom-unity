@@ -1,0 +1,17 @@
+{
+    "name": "fo-dicom-unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2c6e4a93c11d9c247b0b2bccfd940062",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

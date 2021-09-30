@@ -5,6 +5,7 @@ namespace Dicom.Unity
 {
     public static class HoundsfieldScale
     {
+        [System.Serializable]
         public struct Range
         {
             public double min;
