@@ -8,14 +8,18 @@ namespace Dicom.Unity.Demos
 
     public class DicomVolumeDemo : MonoBehaviour
     {
+        public string dicomPath;
         public DicomStudy study;
         public DicomVolumeRenderer volumeRenderer;
 
-        private string dicomPath = Application.streamingAssetsPath + @"\Test Data\Foot DICOM Volume";
+        private string defaultPath = Application.streamingAssetsPath + @"\Test Data\Foot DICOM Volume";
 
         private void Start()
         {
-            study.LoadStudy(dicomPath);
+            if (dicomPath.Length == 0)
+                dicomPath = defaultPath;
+
+            study = DicomStudy.Load(dicomPath);
 
             foreach (var series in study.series)
                 volumeRenderer.Render(series.Value);

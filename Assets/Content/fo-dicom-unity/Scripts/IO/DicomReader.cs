@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,12 +12,7 @@ namespace Dicom.Unity.IO
     public static class DicomReader
     {
         /// <summary>
-        /// Returns a DicomFile representation of a DICOM file.
-        /// </summary>
-
-        /// <summary>
-        /// Simple wrapper around DicomFile.Open for consistency 
-        /// with the more complex ReadDirectory functionality.
+        /// Returns a DicomFile representation of a simple DICOM file.
         /// </summary>
         public static DicomFile ReadFile (string filePath)
         {
@@ -26,11 +22,13 @@ namespace Dicom.Unity.IO
         /// <summary>
         /// Returns an ordered array of DicomFiles representing a DICOM series.
         /// </summary>
-        public static DicomFile[] ReadDirectory (string directoryPath)
+        public static DicomStudy ReadDirectory (string directoryPath)
         {
             IEnumerable<string> filePaths = GetDicomFilePathsInDirectory(directoryPath);
             DicomFile[] dicomFiles = ReadDicomFiles(filePaths);
-            return dicomFiles;
+            Dictionary<int, DicomSeries> dicomSeries = SeparateIntoSeries(dicomFiles);
+
+            return new DicomStudy(dicomSeries);
         }
 
         private static IEnumerable<string> GetDicomFilePathsInDirectory (string directoryPath)
@@ -57,6 +55,38 @@ namespace Dicom.Unity.IO
             });
 
             return fileArray;
+        }
+
+        private static Dictionary<int, DicomSeries> SeparateIntoSeries(DicomFile[] dicomFiles)
+        {
+            // Separate out all the files into different bags based on their series number
+            var seriesBags = new ConcurrentDictionary<int, ConcurrentBag<DicomFile>>();
+            Parallel.For(0, dicomFiles.Length, i =>
+            {
+                int seriesNumber = dicomFiles[i].Dataset.GetValue<int>(DicomTag.SeriesNumber, 0);
+
+                if (!seriesBags.ContainsKey(seriesNumber))
+                    seriesBags.TryAdd(seriesNumber, new ConcurrentBag<DicomFile>());
+
+                seriesBags[seriesNumber].Add(dicomFiles[i]);
+            });
+
+            // Sort and wrap each pair as a DicomSeries
+            var seriesDictionary = new Dictionary<int, DicomSeries>();
+            foreach (var bag in seriesBags)
+            {
+                List<DicomFile> sortedFiles = new List<DicomFile>(bag.Value.Count);
+                foreach (var file in bag.Value)
+                    sortedFiles.Add(file);
+
+                DicomFile[] sortedArray = sortedFiles.ToArray();
+                DicomSorter.SortByInstanceNumber(sortedArray);
+
+                var series = new DicomSeries(bag.Key, sortedArray);
+                seriesDictionary.Add(series.seriesNumber, series);
+            }
+
+            return seriesDictionary;
         }
     }
 }
