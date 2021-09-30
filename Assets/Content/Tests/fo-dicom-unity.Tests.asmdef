@@ -4,7 +4,7 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "UnityVolume"
+        "fo-dicom-unity"
     ],
     "includePlatforms": [
         "Editor"

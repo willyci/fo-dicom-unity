@@ -80,7 +80,7 @@ namespace Dicom.Unity.IO
                     sortedFiles.Add(file);
 
                 DicomFile[] sortedArray = sortedFiles.ToArray();
-                DicomSorter.SortByInstanceNumber(sortedArray);
+                DicomSorter.Sort(sortedArray);
 
                 var series = new DicomSeries(bag.Key, sortedArray);
                 seriesDictionary.Add(series.seriesNumber, series);
