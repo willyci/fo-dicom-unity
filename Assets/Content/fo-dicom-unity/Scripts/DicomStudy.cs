@@ -8,6 +8,8 @@ using UnityEngine;
 
 namespace Dicom.Unity
 {
+    using Dicom.Unity.IO;
+
     /// <summary>
     /// The record of an imaging procedure containing one or more series.
     /// </summary>
@@ -64,22 +66,29 @@ namespace Dicom.Unity
         private Dictionary<int, DicomSeries> SeparateStudyIntoSeries(DicomFile[] dicomFiles)
         {
             // Separate out all the files into different bags based on their series number
-            var unsortedBags = new ConcurrentDictionary<int, ConcurrentBag<DicomFile>>();
+            var seriesBags = new ConcurrentDictionary<int, ConcurrentBag<DicomFile>>();
             Parallel.For(0, dicomFiles.Length, i =>
             {
                 int seriesNumber = dicomFiles[i].Dataset.GetValue<int>(DicomTag.SeriesNumber, 0);
                 
-                if (!unsortedBags.ContainsKey(seriesNumber))
-                    unsortedBags.TryAdd(seriesNumber, new ConcurrentBag<DicomFile>());
+                if (!seriesBags.ContainsKey(seriesNumber))
+                    seriesBags.TryAdd(seriesNumber, new ConcurrentBag<DicomFile>());
 
-                unsortedBags[seriesNumber].Add(dicomFiles[i]);
+                seriesBags[seriesNumber].Add(dicomFiles[i]);
             });
 
-            // Wrap each pair as a DicomSeries
+            // Sort and wrap each pair as a DicomSeries
             var seriesDictionary = new Dictionary<int, DicomSeries>();
-            foreach (var sortedArray in unsortedBags)
+            foreach (var bag in seriesBags)
             {
-                var series = new DicomSeries(sortedArray.Key, sortedArray.Value.ToArray());
+                List<DicomFile> sortedFiles = new List<DicomFile>(bag.Value.Count);
+                foreach (var file in bag.Value)
+                    sortedFiles.Add(file);
+
+                DicomFile[] sortedArray = sortedFiles.ToArray();
+                DicomSorter.SortByInstanceNumber(sortedArray);
+
+                var series = new DicomSeries(bag.Key, sortedArray);
                 seriesDictionary.Add(series.seriesNumber, series);
             }
 

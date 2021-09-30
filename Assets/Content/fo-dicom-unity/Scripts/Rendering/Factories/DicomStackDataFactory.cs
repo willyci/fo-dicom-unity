@@ -12,26 +12,19 @@ namespace Dicom.Unity.Rendering.Factories
     {
         public static DicomStackData CreateStackData (DicomFile[] dicomFiles)
         {
-            DicomFile[] orderedDicomFiles = GetOrderedDicomImages(dicomFiles);
+            DicomFile[] imageBearingFiles = GetImageBearingDicomFiles(dicomFiles);
 
-            DicomSliceData[] sliceData = new DicomSliceData[orderedDicomFiles.Length];
+            DicomSliceData[] sliceData = new DicomSliceData[imageBearingFiles.Length];
          
             Parallel.For(0, sliceData.Length, i =>
             {
-                sliceData[i] = DicomSliceDataFactory.CreateSliceData(orderedDicomFiles[i]);
+                sliceData[i] = DicomSliceDataFactory.CreateSliceData(imageBearingFiles[i]);
             });
 
             return new DicomStackData
             {
                 sliceData = sliceData
             };
-        }
-
-        private static DicomFile[] GetOrderedDicomImages (DicomFile[] dicomFiles)
-        {
-            DicomFile[] imageBearingFiles = GetImageBearingDicomFiles(dicomFiles);
-            SortByInstanceNumber(imageBearingFiles);
-            return imageBearingFiles;
         }
 
         private static DicomFile[] GetImageBearingDicomFiles (DicomFile[] dicomFiles)
@@ -50,15 +43,6 @@ namespace Dicom.Unity.Rendering.Factories
                     imageFiles.Add(file);
 
             return imageFiles.ToArray();
-        }
-
-        private static void SortByInstanceNumber(DicomFile[] imageBearingFiles)
-        {
-            Array.Sort(imageBearingFiles, (DicomFile a, DicomFile b) =>
-            {
-                return a.Dataset.GetValue<int>(DicomTag.InstanceNumber, 0)
-                .CompareTo(b.Dataset.GetValue<int>(DicomTag.InstanceNumber, 0));
-            });
         }
     }
 }
