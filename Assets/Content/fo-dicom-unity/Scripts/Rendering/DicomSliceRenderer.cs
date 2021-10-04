@@ -22,7 +22,7 @@ namespace Dicom.Unity.Rendering
 
         public void Render(DicomSeries series)
         {
-            Render(DicomSliceData.Extract(series.dicomFiles[0]));
+            Render(DicomSliceData.Extract(series.dicomFiles[series.dicomFiles.Length / 2]));
         }
 
         public void Render (DicomSliceData sliceData)
