@@ -15,9 +15,9 @@ namespace Dicom.Unity
             this.series = series;
         }
 
-        public static DicomStudy Load (string directoryPath)
+        public static DicomStudy Load (string path)
         {
-            return IO.DicomReader.ReadDirectory(directoryPath);
+            return IO.DicomReader.Read(path);
         }
     }
 }

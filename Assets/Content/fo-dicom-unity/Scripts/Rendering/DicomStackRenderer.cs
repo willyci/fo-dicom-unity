@@ -7,16 +7,24 @@ namespace Dicom.Unity.Rendering
     using UnityVolume.Rendering;
 
     /// <summary>
-    /// Renders a DICOM stack into the game world.
+    /// Renders a DICOM stack.
     /// </summary>
 
-    public class DicomStackRenderer : VolumeRenderer
+    [RequireComponent(typeof(VolumeRenderer))]
+    public class DicomStackRenderer : MonoBehaviour
     {
+        public VolumeRenderer volumeRenderer { get; private set; }
+
         public int index { get; private set; }
         public int length { get; private set; }
 
         private Texture2D[] stack;
         private Vector3 physicalSize;
+
+        private void Awake()
+        {
+            volumeRenderer = GetComponent<VolumeRenderer>();
+        }
 
         public void Render(DicomSeries series)
         {
@@ -62,11 +70,11 @@ namespace Dicom.Unity.Rendering
                 if (localMax > max) max = localMax;
             }
 
-            
-            SetWindow(min, max);
-            SetCutoff(min, max);
 
-            ViewSliceAtIndex(0);
+            volumeRenderer.SetWindow(min, max);
+            volumeRenderer.SetCutoff(min, max);
+
+            ViewSliceAtIndex(stack.Length / 2);
         }
 
         public void ViewSliceAtIndex (int index)
@@ -77,7 +85,7 @@ namespace Dicom.Unity.Rendering
 
             this.index = index;
 
-            base.Render(stack[index], physicalSize);
+            volumeRenderer.Render(stack[index], physicalSize);
         }
     }
 }

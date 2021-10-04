@@ -7,11 +7,19 @@ namespace Dicom.Unity.Rendering
     using UnityVolume.Rendering;
 
     /// <summary>
-    /// Renders a DICOM slice into the game world.
+    /// Renders a DICOM slice.
     /// </summary>
 
-    public class DicomSliceRenderer : VolumeRenderer
+    [RequireComponent(typeof(VolumeRenderer))]
+    public class DicomSliceRenderer : MonoBehaviour
     {
+        public VolumeRenderer volumeRenderer { get; private set; }
+
+        private void Awake()
+        {
+            volumeRenderer = GetComponent<VolumeRenderer>();
+        }
+
         public void Render(DicomSeries series)
         {
             Render(DicomSliceData.Extract(series.dicomFiles[0]));
@@ -37,13 +45,13 @@ namespace Dicom.Unity.Rendering
                 z = 1f
             };
 
-            base.Render(sliceTexture, size);
+            volumeRenderer.Render(sliceTexture, size);
 
             float min = (float)sliceData.houndsfieldValues.Min();
             float max = (float)sliceData.houndsfieldValues.Max();
-            
-            SetWindow(min, max);
-            SetCutoff(min, max);
+
+            volumeRenderer.SetWindow(min, max);
+            volumeRenderer.SetCutoff(min, max);
         }
     }
 }

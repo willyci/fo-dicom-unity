@@ -7,11 +7,19 @@ namespace Dicom.Unity.Rendering
     using UnityVolume.Rendering;
 
     /// <summary>
-    /// Renders a DICOM volume into the game world.
+    /// Renders a DICOM volume.
     /// </summary>
 
-    public class DicomVolumeRenderer : VolumeRenderer
+    [RequireComponent(typeof(VolumeRenderer))]
+    public class DicomVolumeRenderer : MonoBehaviour
     {
+        public VolumeRenderer volumeRenderer { get; private set; }
+
+        private void Awake ()
+        {
+            volumeRenderer = GetComponent<VolumeRenderer>();
+        }
+
         public void Render(DicomSeries series)
         {
             Render(DicomVolumeData.Extract(series.dicomFiles));
@@ -31,13 +39,13 @@ namespace Dicom.Unity.Rendering
             volumeTexture.SetPixels(colors);
             volumeTexture.Apply();
 
-            base.Render(volumeTexture, volumeData.physicalSize);
+            volumeRenderer.Render(volumeTexture, volumeData.physicalSize);
             
             float min = (float)volumeData.houndsfieldValues.Min();
             float max = (float)volumeData.houndsfieldValues.Max();
-            
-            SetWindow(min, max);
-            SetCutoff(min, max);
+
+            volumeRenderer.SetWindow(min, max);
+            volumeRenderer.SetCutoff(min, max);
         }
     }
 }

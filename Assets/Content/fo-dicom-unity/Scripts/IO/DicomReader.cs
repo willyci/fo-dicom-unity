@@ -11,12 +11,30 @@ namespace Dicom.Unity.IO
     /// </summary>
     public static class DicomReader
     {
-        /// <summary>
-        /// Returns a DicomFile representation of a simple DICOM file.
-        /// </summary>
-        public static DicomFile ReadFile (string filePath)
+        public static DicomStudy Read (string path)
         {
-            return DicomFile.Open(filePath);
+            DicomStudy study = null;
+
+            if (File.Exists(path))
+                study = ReadFile(path);
+            else if (Directory.Exists(path))
+                study = ReadDirectory(path);
+
+            return study;
+        }
+
+        /// <summary>
+        /// Returns a study consisting of just one series containing the one file.
+        /// </summary>
+        public static DicomStudy ReadFile (string filePath)
+        {
+            DicomFile dicomFile = DicomFile.Open(filePath);
+            int seriesNumber = dicomFile.Dataset.GetValue<int>(DicomTag.SeriesNumber, 0);
+
+            return new DicomStudy(new Dictionary<int, DicomSeries>()
+            {
+                { seriesNumber, new DicomSeries(seriesNumber, new DicomFile[]{ dicomFile }) }
+            });
         }
 
         /// <summary>

@@ -135,8 +135,9 @@ GameObject:
   - component: {fileID: 107563321}
   - component: {fileID: 107563323}
   - component: {fileID: 107563322}
+  - component: {fileID: 107563324}
   m_Layer: 0
-  m_Name: DicomStackRenderer
+  m_Name: DicomSliceRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,15 +152,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 107563320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f8730685df8ca46b81f1ece1e11388, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e6347abe51259a4f8bda75a6cac8fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transferFunction:
-    controlPoints:
-    - value: 0
-      color: {r: 0, g: 0, b: 0, a: 0}
-    - value: 1
-      color: {r: 1, g: 1, b: 1, a: 1}
+  volumeRenderer: {fileID: 107563324}
 --- !u!33 &107563322
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -209,6 +205,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &107563324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107563320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b18b5b8b1bc374e47a87ad72139765f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transferFunction:
+    controlPoints:
+    - value: 0
+      color: {r: 0, g: 0, b: 0, a: 0}
+    - value: 1
+      color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &107563326
 Transform:
   m_ObjectHideFlags: 0
@@ -332,11 +346,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070645590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44e1ce48d603f6d4ea63ba84b2c8af11, type: 3}
+  m_Script: {fileID: 11500000, guid: aee5ebf72b3de0b4394c337ca6cfbf0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dicomPath: C:\Development\Reference\DICOM Scans\Single Series\H12075359 - Chest
-  stackRenderer: {fileID: 107563321}
+  dicomPath: C:\Development\Projects\014 - fo-dicom\fo-dicom-unity\Assets\StreamingAssets\Test
+    Data\Foot DICOM Slice
+  sliceRenderer: {fileID: 107563321}
 --- !u!4 &1070645592
 Transform:
   m_ObjectHideFlags: 0
